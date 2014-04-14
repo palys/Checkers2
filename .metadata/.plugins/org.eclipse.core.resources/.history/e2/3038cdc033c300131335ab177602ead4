@@ -1,0 +1,33 @@
+package checkersServer;
+
+import java.rmi.RemoteException;
+
+import logic.GameLogic;
+import checkersApi.Game;
+
+public class GameImpl implements Game {
+	
+	private GameLogic gameLogic = null;
+
+	@Override
+	public UserToken playVsBot() throws RemoteException {
+		
+		
+		
+		return null;
+	}
+
+	@Override
+	public UserToken playVsPlayer() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean tryToMakeMove(UserToken userToken, int fromX, int fromY,
+			int toX, int toY) throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

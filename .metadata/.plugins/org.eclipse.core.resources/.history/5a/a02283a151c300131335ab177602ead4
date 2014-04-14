@@ -1,0 +1,9 @@
+package checkersApi;
+
+import logic.Player;
+
+public interface UserToken {
+
+	public Player getPlayer();
+
+}

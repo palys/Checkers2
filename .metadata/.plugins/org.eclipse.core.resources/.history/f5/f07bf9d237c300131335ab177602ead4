@@ -1,0 +1,15 @@
+package checkersClient;
+
+import java.rmi.RemoteException;
+
+import checkersApi.User;
+
+public class UserImpl implements User {
+
+	@Override
+	public void onGameStateChanged(String newState) throws RemoteException {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

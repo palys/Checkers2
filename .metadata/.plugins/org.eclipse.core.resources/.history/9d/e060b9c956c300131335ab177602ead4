@@ -1,0 +1,98 @@
+package checkersClient;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+
+import checkersApi.Game;
+import checkersApi.User;
+import checkersApi.UserToken;
+
+public class Client {
+	
+	private static class Move {
+		private int fromX;
+		private int fromY;
+		private int toX;
+		private int toY;
+		
+		private Move(int fromX, int fromY, int toX, int toY) {
+			super();
+			this.fromX = fromX;
+			this.fromY = fromY;
+			this.toX = toX;
+			this.toY = toY;
+		}
+		public int getFromX() {
+			return fromX;
+		}
+		public int getFromY() {
+			return fromY;
+		}
+		public int getToX() {
+			return toX;
+		}
+		public int getToY() {
+			return toY;
+		}
+		
+		public Move fromLine(String line) {
+			String[] splited = line.split(" ");
+			
+			if (splited.length != 4) {
+				return null;
+			}
+			
+			Integer[] integers = new Integer[4];
+			
+			for (int i = 0; i < 4; i++) {
+				integers[i] = Integer.parseInt(splited[i]);
+			}
+			
+			return new Move(integers[0], integers[1], integers[2], integers[3]);
+		}
+		
+	}
+	
+	private static final String RMI_REGISTRY_ADDRESS = "rmi://127.0.0.1:1099";
+	
+	private static final String CHECKERS_REMOTE_OBJECT_NAME = "checkers";
+	
+	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+	public static void main(String[] args) {
+		
+		Game game = null;
+		
+		try {
+			game = (Game) Naming.lookup(RMI_REGISTRY_ADDRESS + "/" + CHECKERS_REMOTE_OBJECT_NAME);
+			
+			User user = new UserImpl();
+			
+			UserToken myToken = game.playVsPlayer(user);
+			
+			while (!game.gameEnded(myToken)) {
+				
+			}
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		} catch (NotBoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+		
+		
+		
+	}
+}

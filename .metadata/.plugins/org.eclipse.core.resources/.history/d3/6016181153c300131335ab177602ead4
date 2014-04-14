@@ -1,0 +1,43 @@
+package checkersServer;
+
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
+
+import checkersApi.Game;
+
+public class Server {
+	
+	private static final String RMI_REGISTRY_ADDRESS = "rmi://127.0.0.1:1099";
+	
+	private static final String CHECKERS_REMOTE_OBJECT_NAME = "checkers";
+
+	public static void main(String[] args) {
+		
+		Game impl = new GameImpl();
+		
+		Game game = null;
+		
+		Registry registry = null;
+		
+		try {
+			game = (Game) UnicastRemoteObject.exportObject(impl, 0);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+		
+		try {
+			Registry createRegistry = LocateRegistry.createRegistry(1099);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
+		
+
+	}
+
+}

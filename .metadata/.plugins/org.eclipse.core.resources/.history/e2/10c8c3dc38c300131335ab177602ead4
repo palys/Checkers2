@@ -1,0 +1,30 @@
+package logic;
+
+import checkersApi.User;
+
+public class HumanPlayer extends Player {
+
+	
+	
+	private HumanPlayer(Color color) {
+		super(color);
+		// TODO Auto-generated constructor stub
+	}
+
+	public HumanPlayer(Color color, User user) {
+		super(color);
+	}
+
+	@Override
+	public void notifyMeAboutStart() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void sendMeNewGameState(Chessboard newState) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

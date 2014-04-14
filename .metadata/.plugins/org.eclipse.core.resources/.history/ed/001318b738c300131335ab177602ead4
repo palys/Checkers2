@@ -1,0 +1,22 @@
+package logic;
+
+public class HumanPlayer extends Player {
+
+	public HumanPlayer(Color color) {
+		super(color);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public void notifyMeAboutStart() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void sendMeNewGameState(Chessboard newState) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

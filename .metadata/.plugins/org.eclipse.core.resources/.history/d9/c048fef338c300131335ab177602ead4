@@ -1,0 +1,25 @@
+package logic;
+
+import checkersApi.User;
+
+public class HumanPlayer extends Player {
+
+	private User user;
+
+	public HumanPlayer(Color color, User user) {
+		super(color);
+		this.user = user;
+	}
+
+	@Override
+	public void notifyMeAboutStart() {
+		user.onGameStateChanged("Rozpoczecie gry. Ruch białego gracza");
+	}
+
+	@Override
+	public void sendMeNewGameState(Chessboard newState) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

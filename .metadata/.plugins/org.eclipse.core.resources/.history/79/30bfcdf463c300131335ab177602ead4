@@ -1,0 +1,5 @@
+package checkersServer;
+
+public enum Color {
+	BLACK, WHITE
+}

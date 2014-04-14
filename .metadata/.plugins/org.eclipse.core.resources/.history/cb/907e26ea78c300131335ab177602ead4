@@ -1,0 +1,145 @@
+package checkersServer;
+
+import java.rmi.RemoteException;
+import java.security.InvalidParameterException;
+import java.util.HashMap;
+import java.util.Map;
+
+import utils.Logger;
+import logic.Color;
+import logic.GameLogic;
+import logic.HumanPlayer;
+import logic.Move;
+import logic.Player;
+import checkersApi.Game;
+import checkersApi.User;
+import checkersApi.UserToken;
+
+public class GameImpl implements Game {
+	
+	private GameLogic gameLogic = null;
+	
+	private UserTokenImpl white = null;
+	
+	private UserTokenImpl black = null;
+	
+	private Map<UserToken, Player> map = new HashMap<>();
+	
+	private void mapUserTokenWithPlayer(UserToken token, Player player) {
+		map.put(token, player);
+	}
+	
+	private Player getPlayer(UserToken token) {
+		return map.get(token);
+	}
+	
+	private Player getOpositePlayer(UserToken token) {
+		if (token.equals(white)) {
+			return getPlayer(black);
+		} else {
+			return getPlayer(white);
+		}
+	}
+
+	@Override
+	public UserToken playVsBot(User user) throws RemoteException {
+		
+		Player player = new HumanPlayer(Color.WHITE, user);
+		
+		if (gameLogic == null) {
+			black = new UserTokenImpl();
+			mapUserTokenWithPlayer(black, player);
+			gameLogic = GameLogic.vsBot(8, player, this, black);
+		} else {
+			return null;
+		}
+		
+		white = new UserTokenImpl();
+		mapUserTokenWithPlayer(white, player);
+		
+		player.notifyMeAboutMyMove();
+		
+		return white;
+	}
+
+	@Override
+	public UserTokenImpl playVsPlayer(User user) throws RemoteException {
+		
+		if (gameLogic == null) {
+			Player player = new HumanPlayer(Color.WHITE, user);
+			gameLogic = GameLogic.vsPlayer(8, player);
+			white = new UserTokenImpl();
+			mapUserTokenWithPlayer(white, player);
+			
+			return white;
+		} else {
+			Player player = new HumanPlayer(Color.BLACK, user);
+			boolean hasJoined = gameLogic.join(player);
+			
+			if (hasJoined) {
+				black = new UserTokenImpl();
+				mapUserTokenWithPlayer(black, player);
+				
+				getPlayer(white).notifyMeAboutMyMove();
+				
+				return black;
+			} else {
+				return null;
+			}
+		}
+	}
+
+	@Override
+	public boolean tryToMakeMove(UserToken userToken, int fromX, int fromY,
+			int toX, int toY) throws RemoteException {
+		
+		if (userToken == null) {
+			Logger.log("Invalid user token");
+			return false;
+		}
+		
+		if (userToken.equals(black) || userToken.equals(white)) {
+			Player player = getPlayer(userToken);
+			Move move = null;
+			
+			try {
+				move = Move.newMove(fromX, fromY, toX, toY);
+			} catch (InvalidParameterException e) {
+				return false;
+			}
+			
+			boolean moveDone = gameLogic.doMove(move, player);
+			
+			if (moveDone) {
+				getOpositePlayer(userToken).notifyMeAboutMyMove();
+			}
+			
+			return moveDone;
+		}
+		
+		
+		
+		return false;
+	}
+
+	@Override
+	public boolean gameEnded(UserToken token) throws RemoteException {
+		boolean hasGameEnded = gameLogic.gameEnded();
+		if (hasGameEnded) {
+			Color winnerColor = gameLogic.getWinner();
+			
+			boolean whiteWon;
+			
+			if (winnerColor == Color.WHITE) {
+				whiteWon = true;
+			} else {
+				whiteWon = false;
+			}
+			
+			getPlayer(black).didIWon(!whiteWon);
+			getPlayer(white).didIWon(whiteWon);
+		}
+		return gameLogic.gameEnded();
+	}
+
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;server.policy&apos; to &apos;checkers-server/src&apos;&#x0A;- Original project: &apos;noteboard-server&apos;&#x0A;- Destination element: &apos;checkers-server/src&apos;&#x0A;- Original element: &apos;server.policy&apos;" description="Copy file" destination="=checkers-server/src" element1="src/main/resources/server.policy" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1397427986114" units="0" version="1.0"/>
+</session>

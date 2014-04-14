@@ -1,0 +1,7 @@
+package checkersApi;
+
+import java.rmi.Remote;
+
+public interface User extends Remote {
+
+}

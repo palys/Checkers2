@@ -1,0 +1,59 @@
+package checkersServer;
+
+import java.rmi.RemoteException;
+
+import logic.Color;
+import logic.GameLogic;
+import logic.HumanPlayer;
+import checkersApi.Game;
+
+public class GameImpl implements Game {
+	
+	private GameLogic gameLogic = null;
+	
+	private UserToken white = null;
+	
+	private UserToken black = null;
+
+	@Override
+	public UserToken playVsBot() throws RemoteException {
+		
+		if (gameLogic == null) {
+			gameLogic = GameLogic.vsBot(8, new HumanPlayer(Color.WHITE));
+		} else {
+			return null;
+		}
+		
+		white = new UserToken();
+		return white;
+	}
+
+	@Override
+	public UserToken playVsPlayer() throws RemoteException {
+		
+		if (gameLogic == null) {
+			gameLogic = GameLogic.vsPlayer(8, new HumanPlayer(Color.WHITE));
+			white = new UserToken();
+			return white;
+		} else {
+			boolean hasJoined = gameLogic.join(new HumanPlayer(Color.BLACK));
+			
+			if (hasJoined) {
+				black = new UserToken();
+				return black;
+			} else {
+				return null;
+			}
+		}
+		
+		return null;
+	}
+
+	@Override
+	public boolean tryToMakeMove(UserToken userToken, int fromX, int fromY,
+			int toX, int toY) throws RemoteException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

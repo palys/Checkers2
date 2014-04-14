@@ -1,0 +1,30 @@
+package logic;
+
+public class GameLogic {
+	
+	Player[] players = new Player[2];
+	
+	private GameLogic(Player player) {
+		players[0] = player;
+	}
+	
+	public static GameLogic vsPlayer(Player player) {
+		return new GameLogic(player);
+	}
+	
+	public static GameLogic vsBot(Player player) {
+		GameLogic game = new GameLogic(player);
+		
+		
+		return game;
+	}
+	
+	public boolean join(Player player) {
+		if (players[1] == null) {
+			players[1] = player;
+			return true;
+		} else {
+			return false;
+		}
+	}
+}

@@ -1,0 +1,17 @@
+package checkersServer;
+
+import checkersApi.UserToken;
+
+public class UserTokenImpl implements UserToken {
+	
+	private Player player;
+	
+	public UserTokenImpl(Player player) {
+		this.player = player;
+	}
+	
+	Player getPlayer() {
+		return player;
+	}
+
+}

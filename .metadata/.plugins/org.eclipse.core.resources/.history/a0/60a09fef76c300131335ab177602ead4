@@ -1,0 +1,122 @@
+package checkersClient;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
+import checkersApi.Game;
+import checkersApi.User;
+import checkersApi.UserToken;
+
+public class Client {
+	
+	private static class Move {
+		private int fromX;
+		private int fromY;
+		private int toX;
+		private int toY;
+		
+		private Move(int fromX, int fromY, int toX, int toY) {
+			super();
+			this.fromX = fromX;
+			this.fromY = fromY;
+			this.toX = toX;
+			this.toY = toY;
+		}
+		
+		public static Move fromLine(String line) {
+			String[] splited = line.split(" ");
+			
+			if (splited.length != 4) {
+				return null;
+			}
+			
+			Integer[] integers = new Integer[4];
+			
+			for (int i = 0; i < 4; i++) {
+				integers[i] = Integer.parseInt(splited[i]);
+			}
+			
+			return new Move(integers[0], integers[1], integers[2], integers[3]);
+		}
+		
+	}
+	
+	private static final String RMI_REGISTRY_ADDRESS = "rmi://127.0.0.1:1099";
+	
+	private static final String CHECKERS_REMOTE_OBJECT_NAME = "checkers";
+	
+	private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+	public static void main(String[] args) {
+		
+		if (System.getSecurityManager() == null) {
+			System.setSecurityManager(new SecurityManager());
+		}
+		
+		if (args.length != 1) {
+			System.out.println(args.length);
+			System.out.println("Wrong argument [player|bot]\n");
+		}
+		
+		Game game = null;
+		
+		try {
+			game = (Game) Naming.lookup(RMI_REGISTRY_ADDRESS + "/" + CHECKERS_REMOTE_OBJECT_NAME);
+			
+			User user = new UserImpl();
+			User userForRMI = (User) UnicastRemoteObject.exportObject(user, 0);
+			
+			UserToken myToken = null;
+			
+			if (args[0].equals("player")) {
+				myToken = game.playVsPlayer(userForRMI);
+			} else {
+				myToken = game.playVsBot(userForRMI);
+			}
+			
+			String line = "";
+			
+			while (!game.gameEnded(myToken)) {
+				
+				try {
+					line = br.readLine();
+					
+					Move move = Move.fromLine(line);
+					
+					if (move == null) {
+						System.out.println("Błędny ruch");
+						continue;
+					}
+					
+					boolean moveDone = game.tryToMakeMove(myToken, move.fromX, move.fromY, move.toX, move.toY);
+					
+					if (!moveDone) {
+						System.out.println("Błedny ruch");
+						continue;
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+			return;
+		} catch (RemoteException e) {
+			e.printStackTrace();
+			return;
+		} catch (NotBoundException e) {
+			e.printStackTrace();
+			return;
+		}
+		
+		
+		
+	}
+}

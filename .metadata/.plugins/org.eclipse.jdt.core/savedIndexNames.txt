@@ -1,0 +1,10 @@
+INDEX VERSION 1.127+/home/tpalys/Studia/sem6/rozprochy/lab3/.metadata/.plugins/org.eclipse.jdt.core
+955633391.index
+3490380822.index
+3782617574.index
+2782666572.index
+1211185179.index
+684568899.index
+1419726623.index
+3002865882.index
+3051643104.index

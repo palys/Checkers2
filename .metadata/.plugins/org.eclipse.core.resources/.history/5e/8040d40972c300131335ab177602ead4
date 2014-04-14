@@ -1,0 +1,39 @@
+package logic;
+
+import checkersApi.Game;
+
+
+public class Bot extends Player {
+	
+	GameLogic game;
+
+	public Bot(Color color, GameLogic game) {
+		super(color);
+		this.game = game;
+	}
+
+	@Override
+	public void notifyMeAboutStart(Chessboard startingChessboard) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendMeNewGameState(Chessboard newState) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notifyMeAboutMyMove() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void didIWon(boolean did) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

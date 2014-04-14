@@ -1,0 +1,16 @@
+package checkersApi;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
+import checkersServer.UserToken;
+
+public interface Game extends Remote {
+	
+	public UserToken playVsBot() throws RemoteException;
+	
+	public UserToken playVsPlayer() throws RemoteException;
+	
+	public boolean tryToMakeMove(UserToken userToken, int fromX, int fromY, int toX, int toY) throws RemoteException;
+	
+}

@@ -1,0 +1,19 @@
+package checkersServer;
+
+import checkersApi.Game;
+
+public class Server {
+	
+	private static final String RMI_REGISTRY_ADDRESS = "rmi://127.0.0.1:1099";
+	
+	private static final String CHECKERS_REMOTE_OBJECT_NAME = "checkers";
+
+	public static void main(String[] args) {
+		
+		Game game = new GameImpl();
+		
+		
+
+	}
+
+}

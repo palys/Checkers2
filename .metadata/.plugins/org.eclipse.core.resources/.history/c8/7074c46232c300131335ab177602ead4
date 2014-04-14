@@ -1,0 +1,7 @@
+package checkersClient;
+
+import checkersApi.User;
+
+public class UserImpl implements User {
+
+}

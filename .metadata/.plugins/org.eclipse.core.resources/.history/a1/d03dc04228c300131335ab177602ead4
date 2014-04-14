@@ -1,0 +1,19 @@
+package Utils;
+
+public class Logger {
+	
+	public enum Level {
+		ERROR ( 0 ), WARNING( 1 ), DEBUG( 2 ), INFO ( 3 );
+		
+		private final int value;
+
+	    private Level(int value) {
+	        this.value = value;
+	    }
+		
+	}
+	
+	public static void log(String message) {
+		System.out.println("LOG: " + message);
+	}
+}

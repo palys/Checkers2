@@ -1,0 +1,17 @@
+package checkersServer;
+
+import logic.Player;
+
+public class UserToken {
+	
+	private Player player;
+	
+	public UserToken(Player player) {
+		this.player = player;
+	}
+	
+	Player getPlayer() {
+		return player;
+	}
+
+}

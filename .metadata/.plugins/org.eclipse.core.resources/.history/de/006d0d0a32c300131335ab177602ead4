@@ -1,0 +1,9 @@
+package checkersApi;
+
+import java.rmi.Remote;
+
+public interface User extends Remote {
+
+	public void onGameStateChanged(String newState) throws RemoteException;
+	
+}
